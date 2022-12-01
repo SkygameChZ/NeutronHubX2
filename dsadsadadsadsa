@@ -1928,7 +1928,7 @@ mainf:AddToggle({
 	Default = false,
 	Callback = function(vu)
         Auto_Farm = vu
-        _G.Setting_table.AutoFarm = vu
+        _G.Setting_table.Auto_Farm = vu
 	end    
 })
 local plr = game.Players.LocalPlayer
@@ -3770,6 +3770,226 @@ spawn(function()
 	end
 end)
 
+afsettings:AddLabel("Auto Farm Sword")
+
+afsettings:AddToggle({
+	Name = "Auto Tushita",
+	Default = false,
+	Callback = function(vu)
+		Auto_Tushita = vu
+		_G.Setting_table.Auto_Tushita = vu
+		Update_Setting(getgenv()['MyName'])
+	end    
+})
+
+spawn(function()
+	while wait(.5) do
+		pcall(function()
+			if Auto_Tushita then
+				if not Mix_Farm or Auto_Tushita_Farm then
+					if not _G.Setting_table.Quest_Torch then
+						if game.Workspace.Enemies:FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") or game.ReplicatedStorage:FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") then
+							Auto_Tushita_Farm = true
+							Mix_Farm = true
+							repeat wait(1)
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress")
+							until game.Players.LocalPlayer.Backpack:FindFirstChild("Holy Torch") or game.Players.LocalPlayer.Character:FindFirstChild("Holy Torch") or not Auto_Tushita
+							wait(1)
+							local Q_Tushita = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress")
+							local Q_Torch = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress")['Torches']
+							if Q_Torch[1] == false then
+								if game.Players.LocalPlayer.Backpack:FindFirstChild("Holy Torch") or game.Players.LocalPlayer.Character:FindFirstChild("Holy Torch") then
+									EquipWeapon("Holy Torch")
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",1)
+								else
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress")
+								end
+							elseif Q_Torch[2] == false then
+								if game.Players.LocalPlayer.Backpack:FindFirstChild("Holy Torch") or game.Players.LocalPlayer.Character:FindFirstChild("Holy Torch") then
+									EquipWeapon("Holy Torch")
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",2)
+								else
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress")
+								end
+							elseif Q_Torch[3] == false then
+								if game.Players.LocalPlayer.Backpack:FindFirstChild("Holy Torch") or game.Players.LocalPlayer.Character:FindFirstChild("Holy Torch") then
+									EquipWeapon("Holy Torch")
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",3)
+								else
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress")
+								end
+							elseif Q_Torch[4] == false then
+								if game.Players.LocalPlayer.Backpack:FindFirstChild("Holy Torch") or game.Players.LocalPlayer.Character:FindFirstChild("Holy Torch") then
+									EquipWeapon("Holy Torch")
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",4)
+								else
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress")
+								end
+							elseif Q_Torch[5] == false then
+								if game.Players.LocalPlayer.Backpack:FindFirstChild("Holy Torch") or game.Players.LocalPlayer.Character:FindFirstChild("Holy Torch") then
+									EquipWeapon("Holy Torch")
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",5)
+								else
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress")
+								end
+							elseif Q_Tushita['KilledLongma'] == false then
+								_G.Tushita_Q = true
+							end
+							if game.Players.LocalPlayer.Backpack:FindFirstChild("Holy Torch") or game.Players.LocalPlayer.Character:FindFirstChild("Holy Torch") then
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",1)
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",2)
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",3)
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",4)
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TushitaProgress","Torch",5)
+								wait(1)
+								_G.Setting_table.Quest_Torch = true
+								Update_Setting(getgenv()['MyName'])
+							elseif game:GetService("ReplicatedStorage"):FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") or game.Workspace.Enemies:FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") then
+								_G.Setting_table.Quest_Torch = true
+								Update_Setting(getgenv()['MyName'])
+							end
+						elseif _G.Setting_table.No_Color_Haki_Tushita and _G.Setting_table.Auto_Tushita_Hop then
+							wait(5)
+							if not game.Workspace.Enemies:FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") and not game.ReplicatedStorage:FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") then
+								HopServer()
+								wait(50)
+							end
+						elseif not _G.Setting_table.No_Color_Haki_Tushita then
+							if game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") then
+								Mix_Farm = true
+								Auto_Tushita_Farm = true
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("activateColor","Winter Sky")
+								wait(1)
+								repeat TP2(CFrame.new(-5420.16602, 1084.9657, -2666.8208)) wait() until not Auto_Tushita or (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-Vector3.new(-5420.16602, 1084.9657, -2666.8208)).Magnitude <= 10
+								wait(1)
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("activateColor","Pure Red")
+								wait(1)
+								repeat TP2(CFrame.new(-5414.41357, 309.865753, -2212.45776)) wait() until not Auto_Tushita or (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-Vector3.new(-5414.41357, 309.865753, -2212.45776)).Magnitude <= 10
+								wait(1)
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("activateColor","Snow White")
+								wait(1)
+								repeat TP2(CFrame.new(-4971.47559, 331.565765, -3720.02954)) wait() until not Auto_Tushita or (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-Vector3.new(-4971.47559, 331.565765, -3720.02954)).Magnitude <= 10
+								wait(1)
+								repeat wait()
+									EquipWeapon("God's Chalice")
+									TP(CFrame.new(-5561.32471, 314.284546, -2663.39697, -0.391084909, 1.08295005e-07, 0.920354605, 4.10446699e-09, 1, -1.15922504e-07, -0.920354605, -4.15579748e-08, -0.391084909))
+								until not Auto_Tushita or not game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalicee") and not game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") or game.Workspace.Enemies:FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]")
+								wait(1)
+							else
+								if game:GetService("ReplicatedStorage"):FindFirstChild("Urban [Lv. 1750]") or game:GetService("Workspace").Enemies:FindFirstChild("Urban [Lv. 1750]") then
+									Mix_Farm = true
+									Auto_Tushita_Farm = true
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter")
+									if game:GetService("Workspace").Enemies:FindFirstChild("Urban [Lv. 1750]") then
+										for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+											if v.Name == "Urban [Lv. 1750]" and v.Humanoid.Health > 0 then
+												if v.Humanoid:FindFirstChild("Animator") then
+													v.Humanoid.Animator:Destroy()
+												end
+												repeat wait(_G.Fast_Delay)
+													EquipWeapon(_G.Setting_table.Weapon)
+													TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+													AttackNoCD()
+													AutoHaki()
+												until v.Humanoid.Health <= 0 or not v.Parent or not Auto_Tushita
+											end
+										end
+									elseif game:GetService("ReplicatedStorage"):FindFirstChild("Urban [Lv. 1750]") then
+										TP(game:GetService("ReplicatedStorage"):FindFirstChild("Urban [Lv. 1750]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+									end
+								elseif game:GetService("ReplicatedStorage"):FindFirstChild("Diablo [Lv. 1750]") or game:GetService("Workspace").Enemies:FindFirstChild("Diablo [Lv. 1750]") then
+									Mix_Farm = true
+									Auto_Tushita_Farm = true
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter")
+									if game:GetService("Workspace").Enemies:FindFirstChild("Diablo [Lv. 1750]") then
+										for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+											if v.Name == "Diablo [Lv. 1750]" and v.Humanoid.Health > 0 then
+												if v.Humanoid:FindFirstChild("Animator") then
+													v.Humanoid.Animator:Destroy()
+												end
+												repeat wait(_G.Fast_Delay)
+													EquipWeapon(_G.Setting_table.Weapon)
+													TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+													AttackNoCD()
+													AutoHaki()
+												until v.Humanoid.Health <= 0 or not v.Parent or not Auto_Tushita
+											end
+										end
+									elseif game:GetService("ReplicatedStorage"):FindFirstChild("Diablo [Lv. 1750]") then
+										TP(game:GetService("ReplicatedStorage"):FindFirstChild("Diablo [Lv. 1750]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+									end
+								elseif game:GetService("ReplicatedStorage"):FindFirstChild("Deandre [Lv. 1750]") or game:GetService("Workspace").Enemies:FindFirstChild("Deandre [Lv. 1750]") then
+									Mix_Farm = true
+									Auto_Tushita_Farm = true
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter")
+									if game:GetService("Workspace").Enemies:FindFirstChild("Deandre [Lv. 1750]") then
+										for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+											if v.Name == "Deandre [Lv. 1750]" and v.Humanoid.Health > 0 then
+												if v.Humanoid:FindFirstChild("Animator") then
+													v.Humanoid.Animator:Destroy()
+												end
+												repeat wait(_G.Fast_Delay)
+													EquipWeapon(_G.Setting_table.Weapon)
+													TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+													AttackNoCD()
+													AutoHaki()
+												until v.Humanoid.Health <= 0 or not v.Parent or not Auto_Tushita
+											end
+										end
+									elseif game:GetService("ReplicatedStorage"):FindFirstChild("Deandre [Lv. 1750]") then
+										TP(game:GetService("ReplicatedStorage"):FindFirstChild("Deandre [Lv. 1750]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+									end
+								elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text == "Defeat  Urban (0/1)" or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text == "Defeat  Deandre (0/1)" or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text == "Defeat  Diablo (0/1)" then
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+								elseif _G.Setting_table.Auto_Tushita_Hop then
+									wait(5)
+									if not game:GetService("ReplicatedStorage"):FindFirstChild("Urban [Lv. 1750]") and not game:GetService("Workspace").Enemies:FindFirstChild("Urban [Lv. 1750]") and not game:GetService("ReplicatedStorage"):FindFirstChild("Diablo [Lv. 1750]") and not game:GetService("Workspace").Enemies:FindFirstChild("Diablo [Lv. 1750]") and not game:GetService("ReplicatedStorage"):FindFirstChild("Deandre [Lv. 1750]") and not game:GetService("Workspace").Enemies:FindFirstChild("Deandre [Lv. 1750]") then
+										HopServer()
+										wait(50)
+									end
+								elseif Auto_Tushita_Farm then
+									Auto_Tushita_Farm = nil
+									Mix_Farm = nil
+								end
+							end
+						elseif Auto_Tushita_Farm then
+							Auto_Tushita_Farm = nil
+							Mix_Farm = nil
+						end
+					else
+						if game.Workspace.Enemies:FindFirstChild("Longma [Lv. 2000] [Boss]") or game.ReplicatedStorage:FindFirstChild("Longma [Lv. 2000] [Boss]") then
+							Auto_Tushita_Farm = true
+							Mix_Farm = true
+							if game.Workspace.Enemies:FindFirstChild("Longma [Lv. 2000] [Boss]") then
+								for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+									if v.Name == "Longma [Lv. 2000] [Boss]" and v.Humanoid.Health > 0 then
+										if v.Humanoid:FindFirstChild("Animator") then
+											v.Humanoid.Animator:Destroy()
+										end
+										repeat wait(_G.Fast_Delay)
+											EquipWeapon(_G.Setting_table.Weapon)
+											TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+											AttackNoCD()
+											AutoHaki()
+										until v.Humanoid.Health <= 0 or not v.Parent or not Auto_Tushita
+									end
+								end
+							elseif game.ReplicatedStorage:FindFirstChild("Longma [Lv. 2000] [Boss]") then
+								TP(game.ReplicatedStorage:FindFirstChild("Longma [Lv. 2000] [Boss]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+							end
+						elseif Auto_Tushita_Farm then
+							Auto_Tushita_Farm = nil
+							Mix_Farm = nil
+						end
+					end
+				end
+			else
+				wait(2)
+			end
+		end)
+	end
+end)
+
 local stats = Window:MakeTab({
 	Name = "Stats",
 	Icon = "rbxassetid://4483345998",
@@ -4649,7 +4869,41 @@ settings:AddButton({
 		end
 })
 
+settings:AddToggle({
+	Name = "Save Member",
+	Default = true,
+	Callback = function(vu)
+		_G.Setting_table.Save_Member = vu
+		if vu then
+			_G.Dis = nil
+		end
+		Update_Setting(_G.Check_Save_Setting)
+		if _G.Setting_table.Save_Member then
+			getgenv()['MyName'] = game.Players.LocalPlayer.Name
+			Update_Setting(getgenv()['MyName'])
+			Check_Setting(getgenv()['MyName'])
+			Get_Setting(getgenv()['MyName'])
+		end
+	end    
+})
 
+settings:AddToggle({
+	Name = "Save All Member",
+	Default = true,
+	Callback = function(vu)
+		_G.Setting_table.Save_All_Member = vu
+		if vu then
+			_G.Dis = nil
+		end
+		Update_Setting(_G.Check_Save_Setting)
+		if _G.Setting_table.Save_All_Member then
+			getgenv()['MyName'] = "AllMember"
+			Update_Setting(getgenv()['MyName'])
+			Check_Setting(getgenv()['MyName'])
+			Get_Setting(getgenv()['MyName'])
+		end
+	end    
+})
 
 
 settings:AddButton({
