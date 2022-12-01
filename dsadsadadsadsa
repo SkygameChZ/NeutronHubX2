@@ -1898,7 +1898,7 @@ spawn(function()
     end
 end)
 
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/SkygameChZ/NeutronHubX2/main/OrionLib')))()
 
 local Window = OrionLib:MakeWindow({Name = "Neutron Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "Neutron Hub BF Premium", IntroEnabled = true, IntroText = "Neutron hub"})
 
