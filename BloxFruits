@@ -3148,8 +3148,9 @@ spawn(function()
 						if game:GetService("Workspace").Enemies:FindFirstChild("Urban [Lv. 1750]") then
 							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 								if v.Name == "Urban [Lv. 1750]" then
-									repeat wait(.2)
+									repeat wait(_G.Fast_Delay)
 										EquipWeapon(_G.Setting_table.Weapon)
+										AttackNoCD()
 										TP(v.HumanoidRootPart.CFrame * CFrame.new(0,25,0))
 										AutoHaki()
 										game:GetService'VirtualUser':CaptureController()
@@ -3169,8 +3170,9 @@ spawn(function()
 						if game:GetService("Workspace").Enemies:FindFirstChild("Diablo [Lv. 1750]") then
 							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 								if v.Name == "Diablo [Lv. 1750]" then
-									repeat wait(.2)
+									repeat wait(_G.Fast_Delay)
 										EquipWeapon(_G.Setting_table.Weapon)
+										AttackNoCD()
 										TP(v.HumanoidRootPart.CFrame * CFrame.new(0,25,0))
 										AutoHaki()
 										game:GetService'VirtualUser':CaptureController()
@@ -3190,8 +3192,9 @@ spawn(function()
 						if game:GetService("Workspace").Enemies:FindFirstChild("Deandre [Lv. 1750]") then
 							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 								if v.Name == "Deandre [Lv. 1750]" then
-									repeat wait(.2)
+									repeat wait(_G.Fast_Delay)
 										EquipWeapon(_G.Setting_table.Weapon)
+										AttackNoCD()
 										TP(v.HumanoidRootPart.CFrame * CFrame.new(0,25,0))
 										AutoHaki()
 										game:GetService'VirtualUser':CaptureController()
