@@ -2396,7 +2396,8 @@ Boss_List = {
 	"rip_indra True Form [Lv. 5000] [Raid Boss]",
 	"Longma [Lv. 2000] [Boss]",
 	"Soul Reaper [Lv. 2100] [Raid Boss]",
-	"Cake Queen [Lv. 2175] [Boss]"
+	"Cake Queen [Lv. 2175] [Boss]",
+	"Dough King [Lv. 2300] [Raid Boss]"
 }
 
 Bossdrop = mainf:AddDropdown({
