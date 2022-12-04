@@ -4426,6 +4426,8 @@ if Auto_Awaken then
 	end
 end
 end)
+
+end
 local Islands = Window:MakeTab({
 	Name = "Teleport",
 	Icon = "rbxassetid://4483345998",
