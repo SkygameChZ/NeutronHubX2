@@ -2194,7 +2194,7 @@ if type(_G.Setting_table.Weapon) == 'string' then
 else
 	_G.Setting_table.Weapon = ""
 end
-
+ 
 WeaponDrop = mainf:AddDropdown({
 	Name = "Select",
 	Default = "1",
@@ -2397,6 +2397,7 @@ Boss_List = {
 	"Longma [Lv. 2000] [Boss]",
 	"Soul Reaper [Lv. 2100] [Raid Boss]",
 	"Cake Queen [Lv. 2175] [Boss]",
+	"Cake Prince [Lv. 2300] [Raid Boss]",
 	"Dough King [Lv. 2300] [Raid Boss]"
 }
 
@@ -4061,6 +4062,39 @@ spawn(function()
 	end
 end)
 
+afsettings:AddLabel("Auto Confetti")
+
+afsettings:AddToggle({
+	Name = "Auto Confetti",
+	Default = false,
+	Callback = function(vu)
+		Auto_Farm_Confetti = vu
+	end    
+})
+spawn(function()
+    while task.wait() do
+        pcall(function()
+            if Auto_Farm_Confetti then
+                for i,v in pairs(game.Workspace.NPCs:GetChildren()) do
+                    game:GetService("ReplicatedStorage").Remotes.Celebration:InvokeServer('TalkNpc',workspace.NPCs[v.Name])
+                end
+            end
+        end)
+    end
+end)
+
+spawn(function()
+    while task.wait() do
+        pcall(function()
+            if Auto_Farm_Confetti then
+                for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].BoatSpawns:GetChildren()) do
+                    TP2(v.CFrame)
+                end
+            end
+        end)
+    end
+end)
+
 local stats = Window:MakeTab({
 	Name = "Stats",
 	Icon = "rbxassetid://4483345998",
@@ -4368,31 +4402,30 @@ raids:AddToggle({
 	Name = "Auto Awaken",
 	Default = false,
 	Callback = function(vu)
+		Auto_Awaken = vu
 		_G.Setting_table.Auto_Awaken = vu
 		Update_Setting(getgenv()['MyName'])
 	end    
 })
-
-repeat wait(1)
-until game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false
-if _G.Setting_table.Auto_Awaken then
-	wait(2)
-	local args = {
-		[1] = "Awakener",
-		[2] = "Check"
-	}
-	
-	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-	local args = {
-		[1] = "Awakener",
-		[2] = "Awaken"
-	}
-	
-	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+spawn(function()
+	while wait() do
+if Auto_Awaken then
+		wait(2)
+		local args = {
+			[1] = "Awakener",
+			[2] = "Check"
+		}
+		wait(1)
+		game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+		local args = {
+			[1] = "Awakener",
+			[2] = "Awaken"
+		}
+		
+		game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+	end
 end
-
-
-end
+end)
 local Islands = Window:MakeTab({
 	Name = "Teleport",
 	Icon = "rbxassetid://4483345998",
@@ -5005,7 +5038,6 @@ settings:AddToggle({
 		end
 	end    
 })
-
 
 settings:AddButton({
 	Name = "Destroy Gui",
