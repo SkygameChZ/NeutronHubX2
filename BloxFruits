@@ -4062,6 +4062,195 @@ spawn(function()
 	end
 end)
 
+afsettings:AddToggle({
+	Name = "Auto Yama",
+	Default = false,
+	Callback = function(vu)
+		Auto_Yama = vu
+		_G.Setting_table.Auto_Yama = vu
+		Update_Setting(getgenv()['MyName'])
+	end    
+})
+
+spawn(function()
+	while wait(.5) do
+		pcall(function()
+			if Auto_Yama then
+				if not Mix_Farm or Auto_Yama_Farm then
+					if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("EliteHunter", "Progress") < 30 then
+                        if game:GetService("ReplicatedStorage"):FindFirstChild("Urban [Lv. 1750]") or game:GetService("Workspace").Enemies:FindFirstChild("Urban [Lv. 1750]") then
+                            Mix_Farm = true
+                            Auto_Yama_Farm = true
+                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter")
+                            if game:GetService("Workspace").Enemies:FindFirstChild("Urban [Lv. 1750]") then
+                                for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+									if v.Name == "Urban [Lv. 1750]" and v.Humanoid.Health > 0 then
+										if v.Humanoid:FindFirstChild("Animator") then
+											v.Humanoid.Animator:Destroy()
+										end
+										repeat wait(_G.Fast_Delay)
+											EquipWeapon(_G.Setting_table.Weapon)
+											TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+											AttackNoCD()
+											AutoHaki()
+										until v.Humanoid.Health <= 0 or not v.Parent or not Auto_Yama
+									end
+								end
+                            elseif game:GetService("ReplicatedStorage"):FindFirstChild("Urban [Lv. 1750]") then
+                                TP(game:GetService("ReplicatedStorage"):FindFirstChild("Urban [Lv. 1750]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+                            end
+                        elseif game:GetService("ReplicatedStorage"):FindFirstChild("Diablo [Lv. 1750]") or game:GetService("Workspace").Enemies:FindFirstChild("Diablo [Lv. 1750]") then
+                            Mix_Farm = true
+                            Auto_Yama_Farm = true
+							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter")
+                            if game:GetService("Workspace").Enemies:FindFirstChild("Diablo [Lv. 1750]") then
+                                for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+									if v.Name == "Diablo [Lv. 1750]" and v.Humanoid.Health > 0 then
+										if v.Humanoid:FindFirstChild("Animator") then
+											v.Humanoid.Animator:Destroy()
+										end
+										repeat wait(_G.Fast_Delay)
+											EquipWeapon(_G.Setting_table.Weapon)
+											TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+											AttackNoCD()
+											AutoHaki()
+										until v.Humanoid.Health <= 0 or not v.Parent or not Auto_Yama
+									end
+								end
+                            elseif game:GetService("ReplicatedStorage"):FindFirstChild("Diablo [Lv. 1750]") then
+                                TP(game:GetService("ReplicatedStorage"):FindFirstChild("Diablo [Lv. 1750]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+                            end
+                        elseif game:GetService("ReplicatedStorage"):FindFirstChild("Deandre [Lv. 1750]") or game:GetService("Workspace").Enemies:FindFirstChild("Deandre [Lv. 1750]") then
+							Mix_Farm = true
+                            Auto_Yama_Farm = true
+                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter")
+                            if game:GetService("Workspace").Enemies:FindFirstChild("Deandre [Lv. 1750]") then
+                                for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+									if v.Name == "Deandre [Lv. 1750]" and v.Humanoid.Health > 0 then
+										if v.Humanoid:FindFirstChild("Animator") then
+											v.Humanoid.Animator:Destroy()
+										end
+										repeat wait(_G.Fast_Delay)
+											EquipWeapon(_G.Setting_table.Weapon)
+											TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+											AttackNoCD()
+											AutoHaki()
+										until v.Humanoid.Health <= 0 or not v.Parent or not Auto_Yama
+									end
+								end
+                            elseif game:GetService("ReplicatedStorage"):FindFirstChild("Deandre [Lv. 1750]") then
+                                TP(game:GetService("ReplicatedStorage"):FindFirstChild("Deandre [Lv. 1750]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+                            end
+						elseif Auto_Yama_Farm then
+							Auto_Yama_Farm = nil
+							Mix_Farm = nil
+                        elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text == "Defeat  Urban (0/1)" or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text == "Defeat  Deandre (0/1)" or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text == "Defeat  Diablo (0/1)" then
+                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+                        elseif _G.Setting_table.Auto_Yama_Hop then
+                            wait(5)
+                            if not game:GetService("ReplicatedStorage"):FindFirstChild("Urban [Lv. 1750]") and not game:GetService("Workspace").Enemies:FindFirstChild("Urban [Lv. 1750]") and not game:GetService("ReplicatedStorage"):FindFirstChild("Diablo [Lv. 1750]") and not game:GetService("Workspace").Enemies:FindFirstChild("Diablo [Lv. 1750]") and not game:GetService("ReplicatedStorage"):FindFirstChild("Deandre [Lv. 1750]") and not game:GetService("Workspace").Enemies:FindFirstChild("Deandre [Lv. 1750]") then
+                                HopServer()
+                                wait(50)
+                            end
+                        end
+                    elseif game.ReplicatedStorage.Remotes.CommF_:InvokeServer("EliteHunter", "Progress") >= 30 and not Yama_H then
+                        Auto_Yama_Farm = true
+						Mix_Farm = true
+                        if (game.Workspace.Map.Waterfall.SealedKatana.Handle.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 300 then
+                            TP(game.Workspace.Map.Waterfall.SealedKatana.Handle.CFrame)
+                        end
+                        if game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]") then
+                            for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+								if v.Name == "Ghost [Lv. 1500]" and v.Humanoid.Health > 0 then
+									if v.Humanoid:FindFirstChild("Animator") then
+										v.Humanoid.Animator:Destroy()
+									end
+									repeat wait(_G.Fast_Delay)
+										EquipWeapon(_G.Setting_table.Weapon)
+										TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+										AttackNoCD()
+										AutoHaki()
+									until v.Humanoid.Health <= 0 or not v.Parent or not Auto_Yama
+								end
+							end
+                        elseif not game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]") then
+							Yama_H = true
+							fireclickdetector(game.Workspace.Map.Waterfall.SealedKatana.Handle.ClickDetector)
+                        end
+					elseif Auto_Yama_Farm then
+						Auto_Yama_Farm = nil
+						Mix_Farm = nil
+                    end
+				end
+			else
+				wait(2)
+			end
+		end)
+	end
+end)
+
+afsettings:AddLabel("Bones")
+
+afsettings:AddToggle({
+	Name = "Auto Farm Bone",
+	Default = false,
+	Callback = function(vu)
+		Auto_Farm_Bone = vu
+		_G.Setting_table.Farm_Bone = vu
+		Update_Setting(getgenv()['MyName'])
+	end    
+})
+
+spawn(function()
+	while wait(.5) do
+		pcall(function()
+			if Auto_Farm_Bone then
+				TP2(CFrame.new(-9515.3173828125, 163.9804229736328, 5787.48291015625))
+				if not Mix_Farm then
+					if game.Workspace.Enemies:FindFirstChild("Reborn Skeleton [Lv. 1975]") then
+						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+						for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+							if v.Name == "Reborn Skeleton [Lv. 1975]" and v.Humanoid.Health > 0 then
+								if v.Humanoid:FindFirstChild("Animator") then
+									v.Humanoid.Animator:Destroy()
+								end
+								_G.PosMon = v.HumanoidRootPart.CFrame
+								StatrMagnet = true
+								repeat wait(_G.Fast_Delay)
+									EquipWeapon(_G.Setting_table.Weapon)
+									TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+									AttackNoCD()
+									AutoHaki()
+								until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not Auto_Farm_Bone 
+								StatrMagnet = false
+							end
+						end
+					elseif game.ReplicatedStorage:FindFirstChild("Reborn Skeleton [Lv. 1975]") then
+						TP(game.ReplicatedStorage:FindFirstChild("Reborn Skeleton [Lv. 1975]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+					else
+						for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+							if not string.find(v.Name,"Boss") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
+								if v.Humanoid:FindFirstChild("Animator") then
+									v.Humanoid.Animator:Destroy()
+								end
+								_G.PosMon = v.HumanoidRootPart.CFrame
+								StatrMagnet = true
+								repeat wait(_G.Fast_Delay)
+									EquipWeapon(_G.Setting_table.Weapon)
+									TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+									AttackNoCD()
+									AutoHaki()
+								until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not Auto_Farm_Bone
+								StatrMagnet = false
+							end
+						end
+					end
+				end
+			end
+		end)
+	end
+end)
+
 afsettings:AddLabel("Auto Confetti")
 
 afsettings:AddToggle({
@@ -4071,6 +4260,8 @@ afsettings:AddToggle({
 		Auto_Farm_Confetti = vu
 	end    
 })
+
+
 spawn(function()
     while task.wait() do
         pcall(function()
