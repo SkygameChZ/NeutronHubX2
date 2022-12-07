@@ -4251,40 +4251,6 @@ spawn(function()
 	end
 end)
 
-afsettings:AddLabel("Auto Confetti")
-
-afsettings:AddToggle({
-	Name = "Auto Confetti",
-	Default = false,
-	Callback = function(vu)
-		Auto_Farm_Confetti = vu
-	end    
-})
-
-
-spawn(function()
-    while task.wait() do
-        pcall(function()
-            if Auto_Farm_Confetti then
-                for i,v in pairs(game.Workspace.NPCs:GetChildren()) do
-                    game:GetService("ReplicatedStorage").Remotes.Celebration:InvokeServer('TalkNpc',workspace.NPCs[v.Name])
-                end
-            end
-        end)
-    end
-end)
-
-spawn(function()
-    while task.wait() do
-        pcall(function()
-            if Auto_Farm_Confetti then
-                for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].BoatSpawns:GetChildren()) do
-                    TP2(v.CFrame)
-                end
-            end
-        end)
-    end
-end)
 
 local stats = Window:MakeTab({
 	Name = "Stats",
