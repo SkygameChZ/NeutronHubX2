@@ -4397,7 +4397,8 @@ local Maps = {
     "Human: Buddha",
     "Flame",
     "Bird: Phoenix",
-	"Dough"
+	"Dough",
+"String"
 }
 raids:AddDropdown({
 	Name = "Select Dungeon",
