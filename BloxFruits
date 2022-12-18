@@ -88,6 +88,8 @@ _G.Setting_table = {
 
 _G.Check_Save_Setting = "CheckSaveSetting"
 
+local Name = game.Players.LocalPlayer.Name
+
 getgenv()['JsonEncode'] = function(msg)
     return game:GetService("HttpService"):JSONEncode(msg)
 end
@@ -137,6 +139,7 @@ Get_Setting(getgenv()['MyName'])
 
 _G.Setting_table.Key = _G.wl_key
 Update_Setting(getgenv()['MyName'])
+
 
 if type(_G.Setting_table.Weapon) ~= 'string' then
 	for i2,v2 in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do  
@@ -1900,7 +1903,7 @@ end)
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/SkygameChZ/NeutronHubX2/main/OrionLib')))()
 
-local Window = OrionLib:MakeWindow({Name = "Neutron Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "Neutron Hub BF Premium", IntroEnabled = true, IntroText = "Neutron hub"})
+local Window = OrionLib:MakeWindow({Name = "Neutron Hub", HidePremium = false, SaveConfig = false, ConfigFolder = "Neutron Hub BF Premium", IntroEnabled = true, IntroText = "Neutron hub"})
 
 --[[
 Name = <string> - The name of the UI.
@@ -1929,8 +1932,12 @@ mainf:AddToggle({
 	Callback = function(vu)
         Auto_Farm = vu
         _G.Setting_table.Auto_Farm = vu
+		Update_Setting(getgenv()['MyName'])
 	end    
 })
+
+
+
 local plr = game.Players.LocalPlayer
 	local CbFw = getupvalues(require(plr.PlayerScripts.CombatFramework))
 	local CbFw2 = CbFw[2]
@@ -2169,6 +2176,14 @@ mainf:AddToggle({
 	Default = true,
 	Callback = function(vu)
 		_G.Fast_Delay = 0.15
+	end    
+})
+
+mainf:AddToggle({
+	Name = "Super Fast Attack",
+	Default = false,
+	Callback = function(vu)
+		_G.Fast_Delay = 0.1
 	end    
 })
 
@@ -2593,69 +2608,8 @@ spawn(function()
 	end
 end)
 
-local Section = mainf:AddSection({
-	Name = "Auto Farm Bones"
-})
 
-mainf:AddToggle({
-	Name = "Auto Farm Bones",
-	Default = false,
-	Callback = function(vu)
-		Auto_Farm_Bone = vu
-		_G.Setting_table.Farm_Bone = vu
-		Update_Setting(getgenv()['MyName'])
-	end    
-})
 
-spawn(function()
-	while wait(.5) do
-		pcall(function()
-			if Auto_Farm_Bone then
-				TP2(CFrame.new(-9513.619140625, 164.32366943359375, 5787.06494140625))
-				if not Mix_Farm then
-					if game.Workspace.Enemies:FindFirstChild("Reborn Skeleton [Lv. 1975]") then
-						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
-						for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
-							if v.Name == "Reborn Skeleton [Lv. 1975]" and v.Humanoid.Health > 0 then
-								if v.Humanoid:FindFirstChild("Animator") then
-									v.Humanoid.Animator:Destroy()
-								end
-								_G.PosMon = v.HumanoidRootPart.CFrame
-								StatrMagnet = true
-								repeat wait(_G.Fast_Delay)
-									EquipWeapon(_G.Setting_table.Weapon)
-									TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
-									AttackNoCD()
-									AutoHaki()
-								until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not Auto_Farm_Bone 
-								StatrMagnet = false
-							end
-						end
-					elseif game.ReplicatedStorage:FindFirstChild("Reborn Skeleton [Lv. 1975]") then
-						TP(game.ReplicatedStorage:FindFirstChild("Reborn Skeleton [Lv. 1975]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
-					else
-						for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
-							if not string.find(v.Name,"Boss") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
-								if v.Humanoid:FindFirstChild("Animator") then
-									v.Humanoid.Animator:Destroy()
-								end
-								_G.PosMon = v.HumanoidRootPart.CFrame
-								StatrMagnet = true
-								repeat wait(_G.Fast_Delay)
-									EquipWeapon(_G.Setting_table.Weapon)
-									TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
-									AttackNoCD()
-									AutoHaki()
-								until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not Auto_Farm_Bone
-								StatrMagnet = false
-							end
-						end
-					end
-				end
-			end
-		end)
-	end
-end)
 
 mainf:AddLabel("Auto Mastery")
 
@@ -2665,6 +2619,17 @@ mainf:AddToggle({
 	Callback = function(vu)
 		Auto_Farm_Fruit = vu
 		_G.Setting_table.Farm_Fruit = vu
+		Update_Setting(getgenv()['MyName'])
+	end    
+})
+
+
+mainf:AddToggle({
+	Name = "Auto Farm Mastery Gun",
+	Default = false,
+	Callback = function(vu)
+		Auto_Farm_Gun = vu
+		_G.Setting_table.Farm_Gun = vu
 		Update_Setting(getgenv()['MyName'])
 	end    
 })
@@ -2831,7 +2796,7 @@ spawn(function()
 									end
 								end
 							elseif game.ReplicatedStorage:FindFirstChild(Ms) then
-								TP(CFrameMon)
+								TP2(CFrameMon)
 							else
 								for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
 									if not string.find(v.Name,"Boss") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position-CFrameMon.Position).Magnitude <= 1000 then
@@ -2978,6 +2943,217 @@ spawn(function()
 	end
 end)
 
+
+
+spawn(function()
+	while wait(.5) do
+		pcall(function()
+			if game.Players.LocalPlayer.Character.Humanoid.Health <= 0 or not game.Players.LocalPlayer then
+				_G.Stop_Tween = true
+				wait(3)
+				_G.Stop_Tween = nil
+			end
+		end)
+	end
+end)
+
+spawn(function()
+	while wait(.5) do
+		pcall(function()
+			if Auto_Farm_Gun then
+				if not Mix_Farm then
+					if game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+						CheckLevel()
+						if (CFrameQ.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 10 then
+                            TP(CFrameQ)
+                        else
+                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, QuestLv)
+                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+                        end
+					elseif game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+						CheckLevel()
+						TP2(CFrameMon)
+						if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
+							if game.Workspace.Enemies:FindFirstChild(Ms) then
+								for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+									if not string.find(v.Name,"Boss") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position-CFrameMon.Position).Magnitude <= 1000 then
+										for i2,v2 in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+											if v2:IsA("Tool") then
+												if tostring(v2.ToolTip) == "Gun" then
+													SelectToolWeaponGun = v2.Name
+												end
+											end
+										end
+										_G.PosMon = v.HumanoidRootPart.CFrame
+										_G.Mon = v
+										StatrMagnet = true
+										repeat wait(.2)
+											local MinHealth = 17
+											local health = v.Humanoid.Health
+											local maxhealth = v.Humanoid.MaxHealth
+											local percent = (health / maxhealth) * 100
+											if percent <= MinHealth then
+												EquipWeapon(SelectToolWeaponGun)
+												TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+												_G.Mon = v
+												game:GetService("Players").LocalPlayer.Character:FindFirstChild(SelectToolWeaponGun).MousePos.Value = v.HumanoidRootPart.Position
+												PositionSkillMasteryDevilFruit = v.HumanoidRootPart.Position
+												game:GetService'VirtualUser':Button1Down(Vector2.new(1280,600))
+												Aimbot_G = true
+												game:GetService'VirtualUser':Button1Down(Vector2.new(1280,600))
+												UseSkillMasteryDevilFruit = true
+												if SkillZ  and v.Humanoid.Health > 0 then
+													game:service('VirtualInputManager'):SendKeyEvent(true, "Z", false, game)
+													wait(.1)
+													game:service('VirtualInputManager'):SendKeyEvent(false, "Z", false, game)
+												end
+												if SkillX  and v.Humanoid.Health > 0 then
+													game:service('VirtualInputManager'):SendKeyEvent(true, "X", false, game)
+													wait(.1)
+													game:service('VirtualInputManager'):SendKeyEvent(false, "X", false, game)
+												end
+											elseif percent > MinHealth and v.Humanoid.Health > 0 then
+												UseSkillMasteryDevilFruit = false
+												EquipWeapon(_G.Setting_table.Weapon)
+												TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+												AttackNoCD()
+												AutoHaki()
+												local health = v.Humanoid.Health
+												local maxhealth = v.Humanoid.MaxHealth
+												local percent = (health / maxhealth) * 100
+												if percent > MinHealth and v.Humanoid.Health > 0 then
+													game:GetService'VirtualUser':Button1Down(Vector2.new(1280,600))
+												else
+													EquipWeapon(game.Players.LocalPlayer.Data.DevilFruit.Value)
+													wait(1)
+												end
+											end
+										until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not Auto_Farm_Gun
+										StatrMagnet = false
+									end
+								end
+							elseif game.ReplicatedStorage:FindFirstChild(Ms) then
+								TP(CFrameMon)
+							else
+								for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+									if not string.find(v.Name,"Boss") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position-CFrameMon.Position).Magnitude <= 1000 then
+										for i2,v2 in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+											if v2:IsA("Tool") then
+												if tostring(v2.ToolTip) == "Gun" then
+													SelectToolWeaponGun = v2.Name
+												end
+											end
+										end
+										_G.PosMon = v.HumanoidRootPart.CFrame
+										_G.Mon = v
+										StatrMagnet = true
+										repeat wait(.2)
+											local MinHealth = 17
+											local health = v.Humanoid.Health
+											local maxhealth = v.Humanoid.MaxHealth
+											local percent = (health / maxhealth) * 100
+											if percent <= MinHealth then
+												EquipWeapon(SelectToolWeaponGun)
+												TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+												_G.Mon = v.Name
+												game:GetService("Players").LocalPlayer.Character:FindFirstChild(SelectToolWeaponGun).MousePos.Value = v.HumanoidRootPart.Position
+												game:GetService'VirtualUser':Button1Down(Vector2.new(9,9))
+												game:GetService("Players").LocalPlayer.Character:FindFirstChild(SelectToolWeaponGun).MousePos.Value = v.HumanoidRootPart.Position
+												PositionSkillMasteryDevilFruit = v.HumanoidRootPart.Position
+												UseSkillMasteryDevilFruit = true
+												if SkillZ  and v.Humanoid.Health > 0 then
+													game:service('VirtualInputManager'):SendKeyEvent(true, "Z", false, game)
+													wait(.1)
+													game:service('VirtualInputManager'):SendKeyEvent(false, "Z", false, game)
+												end
+												if SkillX  and v.Humanoid.Health > 0 then
+													game:service('VirtualInputManager'):SendKeyEvent(true, "X", false, game)
+													wait(.1)
+													game:service('VirtualInputManager'):SendKeyEvent(false, "X", false, game)
+												end
+											elseif percent > MinHealth and v.Humanoid.Health > 0 then
+												UseSkillMasteryDevilFruit = false
+												EquipWeapon(_G.Setting_table.Weapon)
+												TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+												AttackNoCD()
+												AutoHaki()
+												local health = v.Humanoid.Health
+												local maxhealth = v.Humanoid.MaxHealth
+												local percent = (health / maxhealth) * 100
+												if percent > MinHealth and v.Humanoid.Health > 0 then
+													game:GetService'VirtualUser':Button1Down(Vector2.new(1280,600))
+												else
+													EquipWeapon(game.Players.LocalPlayer.Data.DevilFruit.Value)
+													wait(1)
+												end
+											end
+										until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not Auto_Farm_Gun
+										StatrMagnet = false
+									end
+								end
+							end
+						end
+					end
+				end
+				spawn(function()
+					while task.wait() do
+						pcall(function()
+							if StatrMagnet then
+								if Auto_Farm_Gun then
+									if game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+										for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+											if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+												if v.Humanoid:FindFirstChild("Animator") then
+													v.Humanoid.Animator:Destroy()
+												end
+												v.Humanoid:ChangeState(11)
+												v.Humanoid.JumpPower = 0
+												v.Humanoid.WalkSpeed = 0
+												v.HumanoidRootPart.CanCollide = false
+												v.HumanoidRootPart.Size = Vector3.new(10,10,10)
+												v.HumanoidRootPart.CFrame = _G.PosMon
+												sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  math.huge)
+												Attack = true
+											end
+										end
+									end
+								else
+									for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+										if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+											if v.Humanoid:FindFirstChild("Animator") then
+												v.Humanoid.Animator:Destroy()
+											end
+											v.Humanoid:ChangeState(11)
+											v.Humanoid.JumpPower = 0
+											v.Humanoid.WalkSpeed = 0
+											v.HumanoidRootPart.CanCollide = false
+											v.HumanoidRootPart.Size = Vector3.new(10,10,10)
+											v.HumanoidRootPart.CFrame = _G.PosMon
+											sethiddenproperty(game.Players.LocalPlayer, "MaximumSimulationRadius",  math.huge)
+											sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  9e20)
+										end
+									end
+								end
+							end
+						end)
+					end
+				end)
+				
+local lp = game:GetService('Players').LocalPlayer
+local mouse = lp:GetMouse()
+mouse.Button1Down:Connect(function()
+    if SelectToolWeaponGun ~= nil then
+        if game:GetService("Players").LocalPlayer.Character:FindFirstChild(SelectToolWeaponGun) and game:GetService("Players").LocalPlayer.Character:FindFirstChild(SelectToolWeaponGun):FindFirstChild("RemoteFunctionShoot") then
+            tool = game:GetService("Players").LocalPlayer.Character[SelectToolWeaponGun]
+            v17 = workspace:FindPartOnRayWithIgnoreList(Ray.new(tool.Handle.CFrame.p, (_G.Mon.HumanoidRootPart.Position - tool.Handle.CFrame.p).unit * 100), { game.Players.LocalPlayer.Character, workspace._WorldOrigin });
+            game:GetService("Players").LocalPlayer.Character:FindFirstChild(SelectToolWeaponGun).RemoteFunctionShoot:InvokeServer(_G.Mon.HumanoidRootPart.Position, (ReplicatedStorage_Util.Other.hrpFromPart(v17)));
+        end
+    end
+end)
+			end
+		end)
+	end
+end)
 
 
 local afsettings = Window:MakeTab({
@@ -4287,7 +4463,6 @@ spawn(function()
 	end
 end)
 
-
 local stats = Window:MakeTab({
 	Name = "Stats",
 	Icon = "rbxassetid://4483345998",
@@ -5132,7 +5307,13 @@ local Section = settings:AddSection({
 	Name = "Settings"
 })
 
-
+settings:AddToggle({
+	Name = "Double Quest",
+	Default = false,
+	Callback = function(vu)
+		CheckLevel2()
+	end    
+})
 
 settings:AddButton({
 	Name = "Use code",
