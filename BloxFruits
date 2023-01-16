@@ -553,7 +553,7 @@ function CheckQuestBoss()
 					QuestLv = 2
 					NameMon = "Gladiator"
 					CFrameQ = CFrame.new(-1577.7890625, 7.4151420593262, -2984.4838867188)
-					CFrameMon = CFrame.new(-1521.3740234375, 81.203170776367, -3066.3139648438)
+					CFrameMon = CFrame.new(-1325.4139404296875, 59.5445556640625, -3229.44775390625)
 				elseif Lv == 300 or Lv <= 329 or SelectMonster == "Military Soldier [Lv. 300]" then -- Military Soldier
 					Ms = "Military Soldier [Lv. 300]"
 					NameQuest = "MagmaQuest"
@@ -1875,9 +1875,9 @@ function TP2(P1)
 	elseif Distance < 500 then
 		Speed = 500
 	elseif Distance < 1000 then
-		Speed = 450
+		Speed = 400
 	elseif Distance >= 1000 then
-		Speed = 325
+		Speed = 340
 	end
 	game:GetService("TweenService"):Create(
 		game.Players.LocalPlayer.Character.HumanoidRootPart,
@@ -2099,7 +2099,7 @@ spawn(function()
 										repeat wait(_G.Fast_Delay)
 											TelePBoss(CFrameQBoss)
 											EquipWeapon(_G.Setting_table.Weapon)
-											TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,50))
+											TP2(v.HumanoidRootPart.CFrame*CFrame.new(0,30,50))
 											AttackNoCD()
 										until game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false or not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameBoss) or not v.Parent or v.Humanoid.Health <= 0 or not Auto_Farm or Mix_Farm
 										if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameBoss) then
@@ -2108,8 +2108,8 @@ spawn(function()
 									end
 								end
 							else
-								TP(CFrameBoss*CFrame.new(0,30,0))
-								TelePBoss(CFrameBoss)
+								TP2(CFrameBoss*CFrame.new(0,30,0))
+								TP2(CFrameBoss)
 							end
 						else
 							TP2(CFrameMon)
@@ -2127,7 +2127,7 @@ spawn(function()
 										v.HumanoidRootPart.CanCollide = false
 										v.HumanoidRootPart.Size = Vector3.new(5,5,5)
 										repeat wait(_G.Fast_Delay)
-											TelePBoss(CFrameQ)
+											TP(CFrameQ)
 											EquipWeapon(_G.Setting_table.Weapon)
 											TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,10))
 											AttackNoCD()
@@ -2140,8 +2140,8 @@ spawn(function()
 									end
 								end
 							elseif game.ReplicatedStorage:FindFirstChild(Ms) then
-								TP(game.ReplicatedStorage:FindFirstChild(Ms).HumanoidRootPart.CFrame*CFrame.new(0,30,0))
-								TelePBoss(CFrameQ)
+								TP2(game.ReplicatedStorage:FindFirstChild(Ms).HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+								TP2(CFrameQ)
 							end
 						end
 					end
@@ -2160,7 +2160,7 @@ spawn(function()
 				if Auto_Farm then
 					if game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-							if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+							if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 250 then
 								if v.Humanoid:FindFirstChild("Animator") then
 									v.Humanoid.Animator:Destroy()
 								end
@@ -2177,7 +2177,7 @@ spawn(function()
 					end
 				else
 					for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-						if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+						if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 250 then
 							if v.Humanoid:FindFirstChild("Animator") then
 								v.Humanoid.Animator:Destroy()
 							end
@@ -2201,7 +2201,7 @@ mainf:AddToggle({
 	Name = "Fast Attack",
 	Default = true,
 	Callback = function(vu)
-		_G.Fast_Delay = 0.2
+		Fast_attack = vu
 	end    
 })
 
@@ -2209,9 +2209,20 @@ mainf:AddToggle({
 	Name = "Super Fast Attack",
 	Default = false,
 	Callback = function(vu)
-		_G.Fast_Delay = 0.1
+		Super_Fast = vu
 	end    
 })
+
+spawn(function()
+	while wait(.1) do
+		if Fast_attack then
+			_G.Fast_Delay = 0.1
+		elseif Super_Fast then
+			_G.Fast_Delay = 0
+		end
+	end
+end)
+
 
 local Camera = require(game.ReplicatedStorage.Util.CameraShaker)
 Camera:Stop()
@@ -2938,7 +2949,7 @@ spawn(function()
 								if Auto_Farm_Fruit then
 									if game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 										for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-											if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+											if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 250 then
 												if v.Humanoid:FindFirstChild("Animator") then
 													v.Humanoid.Animator:Destroy()
 												end
@@ -2955,7 +2966,7 @@ spawn(function()
 									end
 								else
 									for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-										if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+										if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 250 then
 											if v.Humanoid:FindFirstChild("Animator") then
 												v.Humanoid.Animator:Destroy()
 											end
@@ -3137,7 +3148,7 @@ spawn(function()
 								if Auto_Farm_Gun then
 									if game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 										for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-											if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+											if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 250 then
 												if v.Humanoid:FindFirstChild("Animator") then
 													v.Humanoid.Animator:Destroy()
 												end
@@ -3154,7 +3165,7 @@ spawn(function()
 									end
 								else
 									for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-										if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+										if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 250 then
 											if v.Humanoid:FindFirstChild("Animator") then
 												v.Humanoid.Animator:Destroy()
 											end
@@ -3302,13 +3313,17 @@ spawn(function()
 							end
 						end
 					else
-						CFrameQ = TP3(CFrame.new(-2151.82153, 149.315704, -12404.9053).Position, CFrame.new(-2151.82153, 149.315704, -12404.9053))
+						CFrameQ = TP2(CFrame.new(-2151.82153, 149.315704, -12404.9053).Position, CFrame.new(-2151.82153, 149.315704, -12404.9053))
 						if(CFrame.new(-2151.82153, 149.315704, -12404.9053).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 300 then
 							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2151.82153, 149.315704, -12404.9053)
 						end
 					end
 					else
+						if game.Players.LocalPlayer.Character.HumanoidRootPart.Position.magnitude > 1000 then
 						TP2(CFrame.new(-2099.33, 66.9971, -12128.6))
+						elseif game:GetService("Workspace").Enemies:FindFirstChild("Cookie Crafter [Lv. 2200]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Guard [Lv. 2225]") or game:GetService("Workspace").Enemies:FindFirstChild("Baking Staff [Lv. 2250]") or game:GetService("Workspace").Enemies:FindFirstChild("Head Baker [Lv. 2275]") or game.Players.LocalPlayer.Character.HumanoidRootPart.Position.magnitude <= 300 then
+							if TP2 then _G.Stop_Tween = true end
+						end
 						if game:GetService("Workspace").Enemies:FindFirstChild("Cookie Crafter [Lv. 2200]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Guard [Lv. 2225]") or game:GetService("Workspace").Enemies:FindFirstChild("Baking Staff [Lv. 2250]") or game:GetService("Workspace").Enemies:FindFirstChild("Head Baker [Lv. 2275]") then
 							for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
 								if (v.Name == "Cookie Crafter [Lv. 2200]" or v.Name == "Cake Guard [Lv. 2225]" or v.Name == "Baking Staff [Lv. 2250]" or v.Name == "Head Baker [Lv. 2275]") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
@@ -3316,6 +3331,7 @@ spawn(function()
 										if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
 											Farmtween = toTarget(v.HumanoidRootPart.Position,v.HumanoidRootPart.CFrame)
 										elseif (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 300 then
+											if TP2 then _G.Stop_Tween = true end
 											_G.PosMon = v.HumanoidRootPart.CFrame
 											EquipWeapon(_G.Setting_table.Weapon)
 											AttackNoCD()
@@ -3342,7 +3358,7 @@ spawn(function()
 			if StatrMagnet then
 				if AutoFarmCakePrince then
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-							if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+							if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 250 then
 								if v.Humanoid:FindFirstChild("Animator") then
 									v.Humanoid.Animator:Destroy()
 								end
@@ -3358,7 +3374,7 @@ spawn(function()
 					end
 				else
 					for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-						if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+						if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 250 then
 							if v.Humanoid:FindFirstChild("Animator") then
 								v.Humanoid.Animator:Destroy()
 							end
@@ -4621,6 +4637,172 @@ afsettings:AddToggle({
 	end    
 })
 
+afsettings:AddLabel("Miscellaneous")
+
+afsettings:AddToggle({
+	Name = "Auto open dough door",
+	Default = false,
+	Save = true,
+    Flag = "doughdoor",
+	Callback = function(vu)
+		Auto_Farm_dough = vu
+		Update_Setting(getgenv()['MyName'])
+	end    
+})
+
+spawn(function()
+	while wait(.5) do
+	   pcall(function()
+	   if Auto_Farm_dough then
+		  if game.Players.LocalPlayer.Backpack:FindFirstChild("Sweet Chalice") or game.Players.LocalPlayer.Character:FindFirstChild("Sweet Chalice") then
+			 Auto_Elite_Hunter = false
+			 AutoFarmCakePrince = true
+		  elseif game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") then
+			 Auto_Elite_Hunter = false
+			 EquipWeapon("God's Chalice")
+			 TP2(CFrame.new(226.6493377685547, 24.775089263916016, -12770.4775390625))
+			 local args = {
+				[1] = "SweetChaliceNpc"
+			 }
+			 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+		  elseif game.ReplicatedStorage:FindFirstChild("Dough King [Lv. 2300] [Raid Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("Dough King [Lv. 2300] [Raid Boss]") then
+			 if game:GetService("Workspace").Enemies:FindFirstChild("Dough King [Lv. 2300] [Raid Boss]") then
+				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+				   if v.Name == "Dough King [Lv. 2300] [Raid Boss]" and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+					  if v.Humanoid:FindFirstChild("Animator") then
+						 v.Humanoid.Animator:Destroy()
+					  end
+					  repeat wait(_G.Fast_Delay)
+						 EquipWeapon(_G.Setting_table.Weapon)
+						 TP2(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+						 AttackNoCD()
+						 AutoHaki()
+					  until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not Auto_Farm_dough
+				   end
+				end
+			 end
+			elseif game.Players.LocalPlayer.Backpack:FindFirstChild("Red Key") or game.Players.LocalPlayer.Character:FindFirstChild("Red Key") then
+				Auto_Elite_Hunter = false
+				TP2(CFrame.new(-2707.915283203125, 63.38233947753906, -12891.6337890625))
+		  else
+			 Auto_Elite_Hunter = true
+		  end
+	   end
+	   end)
+	end
+	end)
+
+mat = afsettings:AddDropdown({
+	Name = "Material",
+	Default = "1",
+	Flags = "material",
+	Save = true,
+	Options = {"Magma Ore", "Leather and Scrap Metal", "Angel Wings", "Yeti fur", "Fish Tails", "Ectoplasm", "Radioactive Material", "Vampire Fang", "Mystric Drops", "Mini Tusk", "Gunpowder", "Demonic Wisp", "Dragon Scale", "Conjured Cocoa",},
+	Callback = function(vu)
+		_G.material = vu
+	end    
+})
+
+afsettings:AddToggle({
+	Name = "Auto Farm Material",
+	Default = false,
+	Flags = "afmaterial",
+	Save = true,
+	Callback = function(vu)
+		material = vu
+	end    
+})
+
+spawn(function()
+	while wait(.5) do
+	   pcall(function()
+	   if material then
+		  if _G.material == "Conjured Cocoa" then
+			 if Old_World or New_World then
+				TP_World3()
+			 elseif Three_World then
+				TP2(CFrame.new(382.3390808105469, 126.5732421875, -12717.9189453125))
+			 end
+			 if game:GetService("Workspace").Enemies:FindFirstChild("Sweet Thief [Lv. 2350]") or game:GetService("Workspace").Enemies:FindFirstChild("Candy Rebel [Lv. 2375]") or game:GetService("Workspace").Enemies:FindFirstChild("Chocolate Bar Battler [Lv. 2325]") or game:GetService("Workspace").Enemies:FindFirstChild("Cocoa Warrior [Lv. 2300]") then
+				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+				   if (v.Name == "Sweet Thief [Lv. 2350]" or v.Name == "Candy Rebel [Lv. 2375]" or v.Name == "Chocolate Bar Battler [Lv. 2325]" or v.Name == "Cocoa Warrior [Lv. 2300]") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+					  if v.Humanoid:FindFirstChild("Animator") then
+						 v.Humanoid.Animator:Destroy()
+					  end
+					  _G.PosMon = v.HumanoidRootPart.CFrame
+					  StatrMagnet = true
+					  repeat wait(_G.Fast_Delay)
+						 EquipWeapon(_G.Setting_table.Weapon)
+						 TP2(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+						 AttackNoCD()
+						 AutoHaki()
+					  until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not material
+					  StatrMagnet = false
+				   end
+				end
+			 elseif game.ReplicatedStorage:FindFirstChild("Sweet Thief [Lv. 2350]") or game.ReplicatedStorage:FindFirstChild("Candy Rebel [Lv. 2375]") or game.ReplicatedStorage:FindFirstChild("Chocolate Bar Battler [Lv. 2325]") or game.ReplicatedStorage:FindFirstChild("Cocoa Warrior [Lv. 2300]") then
+				TP2(game.ReplicatedStorage:FindFirstChild("Sweet Thief [Lv. 2350]") or game.ReplicatedStorage:FindFirstChild("Candy Rebel [Lv. 2375]") or game.ReplicatedStorage:FindFirstChild("Chocolate Bar Battler [Lv. 2325]") or game.ReplicatedStorage:FindFirstChild("Cocoa Warrior [Lv. 2300]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+			 end
+			 --Conjured cocoa end
+			 elseif _G.material == "Magma Ore" then
+			if Three_World or Old_World then
+				TP_World2()
+			 elseif New_World then
+				TP2(CFrame.new(-5366.9619140625, 16.952415466308594, -5252.2607421875))
+				if game:GetService("Workspace").Enemies:FindFirstChild("Magma Ninja [Lv. 1175]") or game:GetService("Workspace").Enemies:FindFirstChild("Lava Pirate [Lv. 1200]") then
+				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+				   if (v.Name == "Magma Ninja [Lv. 1175]" or v.Name == "Lava Pirate [Lv. 1200]" and v.Humanoid.Health > 0) then
+					  if v.Humanoid:FindFirstChild("Animator") then
+						 v.Humanoid.Animator:Destroy()
+					  end
+					  _G.PosMon = v.HumanoidRootPart.CFrame
+					  StatrMagnet = true
+					  repeat wait(_G.Fast_Delay)
+						 EquipWeapon(_G.Setting_table.Weapon)
+						 TP2(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+						 AttackNoCD()
+						 AutoHaki()
+					  until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not material
+					  StatrMagnet = false
+				   end
+				end
+			 elseif game.ReplicatedStorage:FindFirstChild("Magma Ninja [Lv. 1175]") or game.ReplicatedStorage:FindFirstChild("Lava Pirate [Lv. 1200]") then
+				TP2(game.ReplicatedStorage:FindFirstChild("Magma Ninja [Lv. 1175]") or game.ReplicatedStorage:FindFirstChild("Lava Pirate [Lv. 1200]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+			 end
+			 end
+			 --magma ore end
+			 elseif _G.material == "Leather and Scrap Metal" then
+			if Old_World or New_World then
+				TP_World3()
+			 elseif Three_World then
+				TP2(CFrame.new(-572.3546142578125, 288.13165283203125, 5926.4892578125))
+				if game:GetService("Workspace").Enemies:FindFirstChild("Pistol Billionaire [Lv. 1525]") or game:GetService("Workspace").Enemies:FindFirstChild("Pirate Millionaire [Lv. 1500]") then
+				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+				   if (v.Name == "Pistol Billionaire [Lv. 1525]" or v.Name == "Pirate Millionaire [Lv. 1500]" and v.Humanoid.Health > 0) then
+					  if v.Humanoid:FindFirstChild("Animator") then
+						 v.Humanoid.Animator:Destroy()
+					  end
+					  _G.PosMon = v.HumanoidRootPart.CFrame
+					  StatrMagnet = true
+					  repeat wait(_G.Fast_Delay)
+						 EquipWeapon(_G.Setting_table.Weapon)
+						 TP2(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 1))
+						 AttackNoCD()
+						 AutoHaki()
+					  until v.Humanoid.Health <= 0 or not v.Parent or Mix_Farm or not material
+					  StatrMagnet = false
+				   end
+				end
+			 elseif game.ReplicatedStorage:FindFirstChild("Pistol Billionaire [Lv. 1525]") or game.ReplicatedStorage:FindFirstChild("Pirate Millionaire [Lv. 1500]") then
+				TP2(game.ReplicatedStorage:FindFirstChild("Pistol Billionaire [Lv. 1525]") or game.ReplicatedStorage:FindFirstChild("Pirate Millionaire [Lv. 1500]").HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+			 end
+			 end
+			 --Leather and Scrap Metal end
+		  end
+	   end
+	end)
+end
+end)
 
 
 local stats = Window:MakeTab({
@@ -5220,6 +5402,12 @@ elseif Three_World then
 		Name = "Great Tree",
 		Callback = function()
 			TP2(CFrame.new(2276.0859375, 25.87850189209, -6493.03125))
+		  end    
+	})
+	Islands:AddButton({
+		Name = "Top Great Tree",
+		Callback = function()
+			TP2(CFrame.new(2958.92431640625, 2282.388671875, -7214.51806640625))
 		  end    
 	})
 	Islands:AddButton({
