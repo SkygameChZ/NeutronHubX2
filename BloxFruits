@@ -4913,6 +4913,10 @@ spawn(function()
 end
 end)
 
+local Section = afsettings:AddSection({
+	Name = "Hellfire touch"
+})
+
 afsettings:AddToggle({
 	Name = "Auto Hellfire Touch",
 	Default = false,
@@ -4978,6 +4982,75 @@ spawn(function()
 	end
 end)
 
+local Section = afsettings:AddSection({
+	Name = "Mirage Island finder"
+})
+
+afsettings:AddToggle({
+	Name = "Auto TP to Mirage Islands",
+	Default = false,
+	Flag = "mirage",
+	Save = true,
+	Callback = function(vu)
+		Mirage = vu
+	end    
+})
+
+afsettings:AddToggle({
+	Name = "Auto Hop Mirage Islands",
+	Default = false,
+	Flag = "miragehop",
+	Save = true,
+	Callback = function(vu)
+		Mirage_hop = vu
+	end    
+})
+
+afsettings:AddToggle({
+	Name = "Auto Find full moon",
+	Default = false,
+	Flag = "fullmoon",
+	Save = true,
+	Callback = function(vu)
+		fullmoon = vu
+	end    
+})
+
+
+spawn(function()
+    while wait(.1) do
+		pcall(function()
+			if Mirage then
+				if game:GetService("Workspace").Map.MysticIsland("PrimaryPart") then
+					TP2(game.Workspace.Map.MysticIsland.PrimaryPart.CFrame * CFrame.new(0,250,0))
+				elseif game:GetService("Workspace").Map.MysticIsland("PrimaryPart") and game:GetService("Lighting").Sky.MoonTextureId == "rbxasset://sky/moon.jpg" then
+					Mirage_hop = false
+					fullmoon = false
+				elseif not game:GetService("Workspace").Map.MysticIsland("PrimaryPart") then
+					if Mirage_hop then
+						HopServer()
+					end
+				end
+			end
+		end)
+	end
+end)
+
+spawn(function()
+    while wait(.1) do
+		pcall(function()
+			if fullmoon then
+				if game:GetService("Lighting").Sky.MoonTextureId == "rbxasset://sky/moon.jpg" then
+					fullmoon = false
+				elseif not game:GetService("Lighting").Sky.MoonTextureId == "rbxasset://sky/moon.jpg" then
+					if fullmoon then
+						HopServer()
+					end
+				end
+			end
+		end)
+	end
+end)
 
 
 local stats = Window:MakeTab({
