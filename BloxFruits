@@ -4988,7 +4988,7 @@ end)
 			end)
 		end
 	end)
-
+--[[
 	local Section = afsettings:AddSection({
 		Name = "Mirage Island finder"
 	})
@@ -5071,6 +5071,8 @@ spawn(function()
 		end)
 	end
 end)
+
+]]
 
 --[[
 	spawn(function()
