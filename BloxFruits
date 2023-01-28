@@ -5039,7 +5039,7 @@ end)
 				if auto_Mirage then
 					if game:GetService("Workspace").Map:FindFirstChild("MysticIsland") then
 						TP2(game:GetService("Workspace").Map:FindFirstChild("MysticIsland").CFrame * CFrame.new(0,250,0))
-					elseif game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and game:GetService("Lighting").Sky.MoonTextureId == 'rbxasset://sky/moon.jpg' then
+					elseif game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and game:GetService("Lighting").Sky.MoonTextureId == "9709149431" then
 						auto_Mirage_hop = false
 						auto_fullmoon = false
 						auto_fullmoon_hop = false
@@ -5053,15 +5053,17 @@ end)
 	end
 end)
 
+local Lightingsky = game:GetService("Lighting").Sky
+
 spawn(function()
-	while wait(.1) do
+	while wait() do 
 		pcall(function()
-			if fullmoon then
-				if game:GetService("Lighting").Sky.MoonTextureId == 'rbxasset://sky/moon.jpg' then
-					fullmoon = false
-					fullmoon_hop = false
-				elseif not game:GetService("Lighting").Sky.MoonTextureId == 'rbxasset://sky/moon.jpg' then
-					if fullmoon_hop then
+			if auto_fullmoon then
+				if Lightingsky.MoonTextureId == "9709149431" then
+					auto_fullmoon = false
+					auto_fullmoon_hop = false
+				elseif not Lightingsky.MoonTextureId == "9709149431" then
+					if auto_fullmoon_hop then
 						HopServer()
 					end
 				end
@@ -5961,6 +5963,40 @@ end)
 		end
 	end)
 
+	local Section = shop:AddSection({
+		Name = "Haki"
+	})
+
+	shop:AddButton({
+		Name = "Buy Haki",
+		Callback = function()
+			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ColorsDealer", "2")
+		end    
+	})
+
+	shop:AddToggle({
+		Name = "Auto Buy Haki",
+		Default = false,
+		Save = true,
+		Flag = "busobuy",
+		Callback = function(vu)
+		Buso_Haki_Buy = vu
+		Update_Setting(getgenv()['MyName'])
+		end    
+	})
+
+	spawn(function()
+		while wait(.5) do
+			pcall(function()
+				if Buso_Haki_Buy then
+					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ColorsDealer", "2")
+				else
+					wait(3)
+				end
+			end)
+		end
+	end)
+
 	shop:AddToggle({
 		Name = "Auto Buy Legendary Sword",
 		Default = false,
@@ -6031,6 +6067,28 @@ end)
 				[2] = "Buy"
 			}
 			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+		end    
+	})
+
+	shop:AddButton({
+		Name = "Buy Cyborg",
+		Callback = function()
+
+
+local args = {
+    [1] = "CyborgTrainer",
+    [2] = "Check"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+local args = {
+    [1] = "CyborgTrainer",
+    [2] = "Buy"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
 		end    
 	})
 
